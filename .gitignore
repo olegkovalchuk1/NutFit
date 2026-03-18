@@ -201,6 +201,19 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# --- JS / Frontend (додай це в кінець) ---
+node_modules/
+dist/
+build/
+.npm
+*.log
+
+# --- Секрети та IDE (про всяк випадок) ---
+.env
+.vscode/
+.idea/
+db.sqlite3
+
 # Marimo
 marimo/_static/
 marimo/_lsp/
