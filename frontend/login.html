@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+    NutFit
+</div>
+    <nav>
+        <a href="#">ГОЛОВНА</a>
+        <a href="#">УВІЙТИ/ЗАРЕЄСТРУВАТИСЬ</a>
+        <a href="#" class="active">ОСОБИСТИЙ КАБІНЕТ</a>
+        <a href="#">СПОВІЩЕННЯ</a>
+    </nav>
+</header>
+
+
+<main>
+
+<h2>УВІЙТИ</h2>
+
+<form class="login-form">
+
+<label>ВХІД</label>
+<input type="text" placeholder="Введіть номер телефону або електронну адресу">
+
+<label>ПАРОЛЬ</label>
+
+<div class="password-box">
+    <input type="password" id="password" placeholder="Введіть пароль">
+    <span class="eye" onclick="togglePassword()">👁</span>
+</div>
+
+<div class="remember">
+<input type="checkbox">
+<span>Запам'ятати мене</span>
+</div>
+
+<button class="google">Увійти за допомогою Google</button>
+
+<button class="login">Увійти</button>
+
+<hr class="divider">
+
+<p>Не маю аккаунту</p>
+
+<button class="register">Зареєструватись</button>
+
+</form>
+
+</main>
+<script src="login.js"></script>
+</body>
+</html>

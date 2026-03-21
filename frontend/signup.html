@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Реєстрація</title>
+    <link rel="stylesheet" href="signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+    NutFit
+</div>
+    <nav>
+    <a href="#" class="menu-link">ГОЛОВНА</a>
+    <a href="#" class="menu-link">УВІЙТИ/ЗАРЕЄСТРУВАТИСЬ</a>
+    <a href="#" class="menu-link">ОСОБИСТИЙ КАБІНЕТ</a>
+    <a href="#" class="menu-link">ПРО НАС</a>
+    </nav>
+</header>
+
+
+<main>
+
+<h2>ЗАРЕЄСТРУВАТИСЬ</h2>
+
+<form class="login-form">
+
+<label>РЕЄСТРАЦІЯ</label>
+<input type="text" placeholder="Введіть номер телефону або електронну адресу">
+
+<label>ПАРОЛЬ</label>
+
+<div class="password-box">
+    <input type="password" id="password" placeholder="Введіть пароль">
+    <span class="eye" onclick="togglePassword()">👁</span>
+</div>
+
+<div class="remember">
+<input type="checkbox">
+<span>Запам'ятати мене</span>
+</div>
+
+<button class="google">Увійти за допомогою Google</button>
+
+<button class="login">Зареєструватись</button>
+
+<hr class="divider">
+
+<p>Маю аккаунт</p>
+
+<button class="register">Увійти</button>
+
+</form>
+
+</main>
+<script src="signup.js"></script>
+</body>
+</html>
