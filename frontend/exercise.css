@@ -1,0 +1,191 @@
+body {
+    font-family: 'Jeju Myeongjo', serif;
+    margin:0;
+    background-color: #fffcee;
+}
+
+.logo {
+    font-family: 'Karantina', cursive;
+    font-size: 48px;
+    font-weight: bold;
+    color: #0097C1;
+}
+
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 60px;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+
+nav a.active {
+    color: #0097C1;
+}
+
+/* TITLE — ВАЖЛИВО ДЛЯ ЧІТКОСТІ */
+.title {
+    letter-spacing: 2px;
+    margin-left: 60px;
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 90px;
+    font-weight: 800;
+    color: #fffcee; /* Встановіть колір фону вашої сторінки */
+    -webkit-text-stroke: 6px #0097C1; /* Збільште вдвічі, бо половина сховається */
+    paint-order: stroke fill;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* TRACKER */
+.tracker-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 40px 80px;
+}
+
+/* ТЕКСТ */
+.tracker-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 80px;
+    font-weight: bold;
+}
+
+.arrow {
+    font-size: 18px;
+    color: #0097C1;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-family: 'lohit-tamil', sans-serif;
+    font-size: 24px;
+    color: #0097C1;
+    font-weight: 600;
+}
+
+.title-card {
+    font-family: 'lohit-tamil', sans-serif;
+    font-size: 16px;
+    color: black;
+    font-weight: 600;
+}
+/* КАЛЕНДАР */
+.tracker-left {
+    border: 2px solid #0097C1;
+    padding: 25px;
+    border-radius: 16px;
+}
+
+/* ДНІ ТИЖНЯ — ТУТ БУЛА ПРОБЛЕМА */
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 42px);
+    margin-bottom: 12px;
+    color: #0097C1;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+/* СІТКА */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 32px);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.cell {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid #0097C1;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cell.active {
+    background: #0097C1;
+}
+
+.cell.today {
+    border: 2px solid black;
+}
+
+/* КНОПКА */
+button {
+    background: #bfe3ec;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* CONTENT */
+.content {
+    width: 80%;
+    margin: auto;
+}
+
+.card {
+    display: flex;
+    gap: 30px;
+    margin: 50px 0;
+}
+
+iframe {
+    width: 350px;
+    height: 200px;
+    border: 2px solid #0097C1;
+}
+
+/* TEXT */
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #0097C1;
+}
+
+.down {
+    font-size: 20px;
+    padding: 8px 25px;
+    color: #0097C1;
+    font-family: 'lahit-tamil', sans-serif;
+}
+
+.text {
+    position: relative;
+    width: 100%; /* Переконайтеся, що батьківський блок має ширину */
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none; 
+    width: 100%; /* Тепер він займає ширину батька */
+    background: #fffcee;
+    padding: 5px 5px;
+    box-sizing: border-box; /* Щоб падінги не розширювали блок понад 100% */
+}
+
+hr {
+    margin: 40px;
+    border: 1px solid #0097C1;
+}
