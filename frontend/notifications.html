@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Сповіщення</title>
+    <link rel="stylesheet" href="notifications.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">NutFit</div>
+        <nav>
+            <a href="#" id="golovna">ГОЛОВНА</a>
+            <a href="#" id="uvijty">УВІЙТИ / ЗАРЕЄСТРУВАТИСЬ</a>
+            <a href="#" id="osobistiy-kabinet">ОСОБИСТИЙ КАБІНЕТ</a>
+            <a href="#" class="active" id="spovishennya">СПОВІЩЕННЯ</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- BLOCK -->
+        <div class="block">
+            <div class="block-header" onclick="toggleBlock(this)">
+                <span>→</span>
+                <h3>УСІ</h3>
+            </div>
+
+            <div class="block-content" id="all"></div>
+
+        </div>
+
+        <!-- BLOCK -->
+        <div class="block">
+            <div class="block-header" onclick="toggleBlock(this)">
+                <span>→</span>
+                <h3>ВАЖЛИВІ</h3>
+            </div>
+
+            <div class="block-content" id="important"></div>
+
+        </div>
+
+        <!-- BLOCK -->
+        <div class="block">
+            <div class="block-header" onclick="toggleBlock(this)">
+                <span>→</span>
+                <h3>НЕПРОЧИТАНІ</h3>
+            </div>
+
+            <div class="block-content" id="unread"></div>
+
+        </div>
+
+    </main>
+
+    <footer></footer>
+
+    <script src="notifications.js"></script>
+
+</body>
+
+</html>

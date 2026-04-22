@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Особистий кабінет</title>
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">NutFit</div>
+        <nav>
+            <a href="#"  id="golovna">ГОЛОВНА</a>
+            <a href="#" id="uvijty">УВІЙТИ / ЗАРЕЄСТРУВАТИСЬ</a>
+            <a href="#" class="active" id="osobistiy-kabinet">ОСОБИСТИЙ КАБІНЕТ</a>
+            <a href="#" id="spovishennya">СПОВІЩЕННЯ</a>
+        </nav>
+    </header>
+
+
+    <h1 class="page-header">Особистий кабінет</h1>
+
+    <div class="sidebar-nav">
+        <button class="nav-btn" onclick="loadSection('test.html')">Тест</button>
+        <button class="nav-btn" onclick="loadSection('exercise.html')">Вправи</button>
+        <button class="nav-btn" onclick="loadSection('recipes.html')">Рецепти</button>
+    </div>
+    
+    <hr>
+
+    <!-- сюди буде підвантажуватись контент -->
+    <div id="content"></div>
+
+    <script src="profile.js"></script>
+</body>
+
+</html>
