@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модерація користувачів | NutFit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f0e6;
+            --accent-blue: #0097C1;
+            --table-header: #9fc7d6;
+            --danger: #e74c3c;
+            --success: #27ae60;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-family: 'Karantina', sans-serif;
+            font-size: 42px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        h2 {
+            font-family: 'Karantina', sans-serif;
+            font-size: 32px;
+            letter-spacing: 1px;
+            border-left: 5px solid var(--accent-blue);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--table-header);
+            color: #333;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tr:hover { background-color: #f9f9f9; }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-active { background: #d4edda; color: var(--success); }
+        .status-blocked { background: #f8d7da; color: var(--danger); }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+
+        .block-btn { background-color: var(--danger); color: white; }
+        .block-btn:hover { opacity: 0.8; }
+
+        .unblock-btn { background-color: var(--success); color: white; }
+        .unblock-btn:hover { opacity: 0.8; }
+        
+        .empty-msg { padding: 30px; text-align: center; color: #888; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">NutFit</div>
+    <div style="font-family: 'Karantina'; font-size: 24px; color: #666;">ADMIN / USER MODERATION</div>
+</header>
+
+<div class="container">
+    <h2>Модерація користувачів</h2>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 80px;">ID</th>
+                    <th>Ім’я</th>
+                    <th>Email</th>
+                    <th>Статус</th>
+                    <th style="width: 150px; text-align: center;">Дія</th>
+                </tr>
+            </thead>
+            <tbody id="userTable">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+/**
+ * --- КОНФІГУРАЦІЯ ДЛЯ БЕКЕНДЕРA ---
+ */
+const CONFIG = {
+    USE_MOCK: true, // Встановити false для підключення до API
+    API_URL: "http://localhost:3000/api/users",
+    STORAGE_KEY: 'users_db'
+};
+
+/**
+ * --- DATA SERVICE ---
+ * Тут зібрано всі запити до даних. Бекендер просто оновить ці методи.
+ */
+const UserApiService = {
+    // 1. Отримати список користувачів (GET)
+    async getAllUsers() {
+        if (CONFIG.USE_MOCK) {
+            return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY)) || [];
+        }
+        const res = await fetch(CONFIG.API_URL);
+        return await res.json();
+    },
+
+    // 2. Оновити статус блокування (PATCH/PUT)
+    // Очікує: { blocked: boolean }
+    async updateBlockStatus(id, isBlocked) {
+        if (CONFIG.USE_MOCK) {
+            let users = await this.getAllUsers();
+            users = users.map(u => u.id === id ? {...u, blocked: isBlocked} : u);
+            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(users));
+            return { success: true };
+        }
+
+        const res = await fetch(`${CONFIG.API_URL}/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ blocked: isBlocked })
+        });
+        return await res.json();
+    }
+};
+
+/**
+ * --- UI LOGIC ---
+ */
+
+// Початкові дані (тільки для Mock режиму)
+function initMockData() {
+    if (!localStorage.getItem(CONFIG.STORAGE_KEY)) {
+        const initialUsers = [
+            { id: 1, name: "Олександр Коваль", email: "olex@gmail.com", blocked: false },
+            { id: 2, name: "Марія Степаненко", email: "mariya@ukr.net", blocked: true },
+            { id: 3, name: "Дмитро Іванов", email: "dima88@gmail.com", blocked: false }
+        ];
+        localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(initialUsers));
+    }
+}
+
+async function refreshView() {
+    const users = await UserApiService.getAllUsers();
+    renderTable(users);
+}
+
+function renderTable(users) {
+    const tableBody = document.getElementById("userTable");
+    tableBody.innerHTML = "";
+
+    if (users.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="5" class="empty-msg">Список користувачів порожній</td></tr>';
+        return;
+    }
+
+    users.forEach(user => {
+        const row = document.createElement('tr');
+        const statusClass = user.blocked ? "status-blocked" : "status-active";
+        const statusText = user.blocked ? "Заблокований" : "Активний";
+        const btnClass = user.blocked ? "unblock-btn" : "block-btn";
+        const btnText = user.blocked ? "Розблокувати" : "Заблокувати";
+
+        row.innerHTML = `
+            <td>#${user.id}</td>
+            <td><strong>${user.name}</strong></td>
+            <td>${user.email}</td>
+            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td style="text-align: center;">
+                <button class="${btnClass}" onclick="handleToggleBlock(${user.id}, ${!user.blocked})">
+                    ${btnText}
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+async function handleToggleBlock(id, newState) {
+    const action = newState ? "заблокувати" : "розблокувати";
+    if (!confirm(`Ви впевнені, що хочете ${action} цього користувача?`)) return;
+
+    try {
+        await UserApiService.updateBlockStatus(id, newState);
+        await refreshView();
+    } catch (err) {
+        alert("Помилка при оновленні статусу");
+        console.error(err);
+    }
+}
+
+// СТАРТ
+if (CONFIG.USE_MOCK) initMockData();
+document.addEventListener('DOMContentLoaded', refreshView);
+</script>
+
+</body>
+</html>
