@@ -1,4 +1,4 @@
-from .models import FoodEntry
+from users.models import FoodEntry
 
 
 def add_food(user, meal_type, food_name, calories): 
