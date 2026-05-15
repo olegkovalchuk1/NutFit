@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика</title>
+    <!-- React та Babel для JSX -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --text: #1f2937;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #0ea5e9;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 45%, #f8fafc 100%);
+            color: var(--text);
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 16px 32px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            line-height: 1.2;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .controls label {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        select {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 14px;
+            background: #fff;
+            color: var(--text);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .meta {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 8px;
+            min-height: 18px;
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 300px;
+        }
+
+        .error {
+            margin-top: 14px;
+            color: var(--danger);
+            font-size: 14px;
+            font-weight: 600;
+            min-height: 20px;
+        }
+
+        @media (max-width: 980px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-wrap {
+                height: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // Компонент графіка
+    const ChartCard = ({ title, meta, type, data, options }) => {
+        const canvasRef = useRef(null);
+        const chartRef = useRef(null);
+
+        useEffect(() => {
+            if (canvasRef.current && data) {
+                if (chartRef.current) chartRef.current.destroy();
+                chartRef.current = new Chart(canvasRef.current, {
+                    type,
+                    data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        ...options
+                    }
+                });
+            }
+            return () => {
+                if (chartRef.current) chartRef.current.destroy();
+            };
+        }, [data, type, options]);
+
+        return (
+            <article className="card">
+                <h2>{title}</h2>
+                <div className="meta">{meta}</div>
+                <div className="chart-wrap">
+                    <canvas ref={canvasRef}></canvas>
+                </div>
+            </article>
+        );
+    };
+
+    const Dashboard = () => {
+        const [period, setPeriod] = useState('week');
+        const [stats, setStats] = useState({
+            calories: null,
+            macros: null,
+            workouts: null,
+            water: null,
+            error: null
+        });
+
+        const fetchData = async (url) => {
+            const res = await fetch(url, { 
+                headers: { "X-Requested-With": "XMLHttpRequest" } 
+            });
+            if (!res.ok) throw new Error(`Помилка завантаження: ${res.status}`);
+            return res.json();
+        };
+
+        useEffect(() => {
+            const loadAll = async () => {
+                try {
+                    const [cals, macs, wrks, wtr] = await Promise.all([
+                        fetchData(`/api/stats/calories?period=${period}`),
+                        fetchData("/api/stats/macros/today"),
+                        fetchData("/api/stats/workouts/week"),
+                        fetchData("/api/stats/water/week")
+                    ]);
+                    setStats({
+                        calories: cals,
+                        macros: macs,
+                        workouts: wrks,
+                        water: wtr,
+                        error: null
+                    });
+                } catch (e) {
+                    console.error(e);
+                    setStats(s => ({ ...s, error: "Не вдалося завантажити статистику. Перевір API та авторизацію." }));
+                }
+            };
+            loadAll();
+        }, [period]);
+
+        return (
+            <main className="page">
+                <section className="header">
+                    <h1>Дашборд статистики</h1>
+                    <div className="controls">
+                        <label>Період калорій:</label>
+                        <select value={period} onChange={(e) => setPeriod(e.target.value)}>
+                            <option value="week">7 днів</option>
+                            <option value="month">30 днів</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section className="grid">
+                    {stats.calories && (
+                        <ChartCard 
+                            title="Калорії" 
+                            meta={`Точок: ${stats.calories.labels.length}`}
+                            type="line" 
+                            data={stats.calories} 
+                        />
+                    )}
+                    {stats.macros && (
+                        <ChartCard 
+                            title="БЖВ (сьогодні)" 
+                            meta={`Б: ${stats.macros.percentages?.protein ?? 0}% | Ж: ${stats.macros.percentages?.fat ?? 0}% | В: ${stats.macros.percentages?.carbs ?? 0}%`}
+                            type="doughnut" 
+                            data={stats.macros}
+                            options={{ plugins: { legend: { position: 'bottom' } } }}
+                        />
+                    )}
+                    {stats.workouts && (
+                        <ChartCard 
+                            title="Спалені калорії" 
+                            meta={`${stats.workouts.week_start} - ${stats.workouts.week_end}`}
+                            type="bar" 
+                            data={stats.workouts} 
+                        />
+                    )}
+                    {stats.water && (
+                        <ChartCard 
+                            title="Вода за тиждень" 
+                            meta={`${stats.water.week_start} - ${stats.water.week_end}`}
+                            type="line" 
+                            data={stats.water} 
+                        />
+                    )}
+                </section>
+                {stats.error && <p className="error">{stats.error}</p>}
+            </main>
+        );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Dashboard />);
+</script>
+</body>
+</html>

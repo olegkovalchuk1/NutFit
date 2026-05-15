@@ -1,0 +1,117 @@
+body{
+    font-family: 'Jeju Myeongjo', serif;
+    margin:0;
+    background-color: #fffcee;
+}
+
+.logo {
+    font-family: 'Karantina', cursive;
+    font-size: 48px;
+    font-weight: bold;
+    color: #0097C1;
+}
+
+
+header{
+    display:flex;
+    justify-content:space-between;
+    padding:20px 60px;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+nav .active {
+    color: #2a9db0;
+}
+
+.container {
+    display: flex;
+}
+
+main{
+    width:400px;
+    margin:80px auto;
+}
+
+.login-form{
+    display:flex;
+    flex-direction:column;
+}
+
+.login-form input{
+    padding:12px;
+    margin-bottom:25px;
+    background:#eee;
+    border:none;
+    border-radius: 10px;
+}
+
+.password-box{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.password-box input{
+    width:91%;
+    padding:12px;
+    padding-right:25px;
+    background:#eee;
+    border:none;
+    border-radius: 10px;
+}
+
+.eye{
+    position:absolute;
+    right:12px;
+    top:30%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* чекбокс */
+
+.remember{
+    display:flex;
+    align-items: top;
+    gap:10px;
+    margin-bottom:20px;
+    border-radius: 10px;
+}
+
+button{
+    padding:12px;
+    margin-bottom:15px;
+    border:none;
+    color: #0097C1
+}
+
+.login{
+    background:#a9e1f1;
+    color:white;
+    border-radius: 10px;
+}
+
+.google{
+    background:#ddd;
+    border-radius: 10px;
+}
+
+.divider {
+    border: none;
+    height: 2px;
+    background-color: #0097C1; /* бірюзовий */
+    width: 120%;
+    margin: 20px 0;
+}
+
+.register{
+    background:#a9e1f1;
+    color:white;
+    border-radius: 10px;
+}
