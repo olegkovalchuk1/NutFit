@@ -1,3 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
+img,
+iframe {
+    max-width: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
 body {
     font-family: serif;
     margin:0;
@@ -36,7 +49,7 @@ nav a.active {
     letter-spacing: 2px;
     margin-left: 60px;
     font-family: 'Montserrat', sans-serif; 
-    font-size: 90px;
+    font-size: clamp(48px, 10vw, 90px);
     font-weight: 700;
     color: #fffcee; /* Встановіть колір фону вашої сторінки */
     -webkit-text-stroke: 6px #0097C1; /* Збільште вдвічі, бо половина сховається */
@@ -76,4 +89,25 @@ hr {
     margin: 20px 0;
     width: 100%;
     border: 1px solid #0097C1;
+}
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 }
