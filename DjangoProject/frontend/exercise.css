@@ -1,5 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+img,
+iframe {
+    max-width: 100%;
+}
+
 body {
-    font-family: 'Jeju Myeongjo', serif;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: serif;
     margin:0;
     background-color: #fffcee;
 }
@@ -26,6 +39,10 @@ nav a {
     font-weight: 600;
 }
 
+nav a:hover {
+    color: #0097C1;
+}
+
 nav a.active {
     color: #0097C1;
 }
@@ -35,8 +52,8 @@ nav a.active {
     letter-spacing: 2px;
     margin-left: 60px;
     font-family: 'Montserrat', sans-serif; 
-    font-size: 90px;
-    font-weight: 800;
+    font-size: 60px;
+    font-weight: 700;
     color: #fffcee; /* Встановіть колір фону вашої сторінки */
     -webkit-text-stroke: 6px #0097C1; /* Збільште вдвічі, бо половина сховається */
     paint-order: stroke fill;
@@ -141,14 +158,15 @@ button {
     display: flex;
     gap: 30px;
     margin: 50px 0;
+    flex-wrap: wrap;
 }
 
 iframe {
-    width: 350px;
-    height: 200px;
-    border: 2px solid #0097C1;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 16 / 9;
+    height: auto;
 }
-
 /* TEXT */
 .title-row {
     display: flex;
@@ -186,6 +204,47 @@ iframe {
 }
 
 hr {
-    margin: 40px;
+    margin: 20px 0;
+    width: 100%;
     border: 1px solid #0097C1;
+}
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .tracker-wrapper {
+        flex-direction: column;
+        margin: 20px;
+        gap: 30px;
+    }
+
+    .content {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .card {
+        flex-direction: column;
+    }
+
+    .title {
+        margin-left: 20px;
+        font-size: clamp(42px, 10vw, 60px);
+    }
+
+    .tracker-title {
+        margin-top: 0;
+    }
 }
