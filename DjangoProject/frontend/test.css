@@ -1,5 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+img,
+iframe {
+    max-width: 100%;
+}
+
 body {
-    font-family: 'Jeju Myeongjo', serif;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: serif;
     margin:0;
     background-color: #fffcee;
 }
@@ -7,24 +20,28 @@ body {
 .logo {
     font-family: 'Karantina', cursive;
     font-size: 48px;
-    font-weight: bold;
+    font-weight: 700;
     color: #0097C1;
 }
 
-.header {
+header {
     display: flex;
     justify-content: space-between;
     padding: 20px 60px;
 }
 
 nav a {
-    margin-left: 20px;
+    margin: 0 15px;
     text-decoration: none;
     color: black;
-    font-weight: bold;
+    font-weight: 600;
 }
 
-nav .active {
+nav a:hover {
+    color: #0097C1;
+}
+
+nav a.active {
     color: #0097C1;
 }
 
@@ -34,15 +51,21 @@ nav .active {
 
 /* ЛІВА ЧАСТИНА */
 .left {
-    width: 50%;
+    width: 100%;
+    max-width: 700px;
     padding: 40px;
 }
 
 h1 {
-    font-size: 150px;
-    font-family: 'Karantina', cursive;
-    color: transparent;
-  -webkit-text-stroke: 6px #0097C1;
+    letter-spacing: 2px;
+    margin-left: 60px;
+    font-family: 'Montserrat', sans-serif; 
+    font-size: clamp(48px, 10vw, 90px);
+    font-weight: 700;
+    color: #fffcee; /* Встановіть колір фону вашої сторінки */
+    -webkit-text-stroke: 6px #0097C1; /* Збільште вдвічі, бо половина сховається */
+    paint-order: stroke fill;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .question {
@@ -111,25 +134,3 @@ label {
     
 }
 
-/* ПРАВА ЧАСТИНА */
-.right {
-    width: 50%;
-    position: relative;
-}
-
-/* ВЕЛИКІ ЛІТЕРИ */
-.letter {
-    position: absolute;
-    width: 250px;
-    opacity: 0.8;
-}
-
-.n {
-    top: 150px;
-    right: 222px;
-}
-
-.f {
-    top: 650px;
-    right: 222px;
-}
