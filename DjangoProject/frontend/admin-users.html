@@ -25,6 +25,19 @@
         .unblock-btn { background: #27ae60; color: #fff; }
         .empty-msg { padding: 30px; text-align: center; color: #888; }
         .error { margin-top: 14px; color: #b00020; }
+        @media (max-width: 768px) {
+            header {flex-direction: column; align-items: flex-start;padding: 20px; gap: 10px; }
+            .container { width: 100%;margin: 20px auto; padding: 0 15px;}
+            .form-group { flex-direction: column; }
+            .add-btn { width: 100%; padding: 12px; }
+            .tabs { flex-direction: column; }
+            .tab-btn { width: 100%; border-radius: 12px; }
+            .admin-panel { padding: 20px; border-radius: 12px; }
+            table {min-width: 650px;}
+            .table-wrapper, .admin-panel {overflow-x: auto;}
+            .chart-container {overflow-x: auto;}
+            .bar-chart {min-width: 500px;}
+        }
     </style>
 </head>
 <body>
