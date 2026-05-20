@@ -11,6 +11,7 @@ User = get_user_model()
 
 class SaveGoalViewTests(APITestCase):
     def setUp(self):
+        # Створення тестового юзера
         self.user = User.objects.create_user(
             username="nutfit_user",
             email="nutfit@example.com",
@@ -20,6 +21,7 @@ class SaveGoalViewTests(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_create_profile_goal_data(self):
+        # Створення нового профілю
         payload = {
             "age": 29,
             "weight": 72.5,
@@ -37,6 +39,7 @@ class SaveGoalViewTests(APITestCase):
         self.assertEqual(profile.goal, payload["goal"])
 
     def test_update_existing_profile_goal_data(self):
+        # Оновлення існуючого профілю
         Profile.objects.create(
             user=self.user,
             age=30,
@@ -65,6 +68,7 @@ class SaveGoalViewTests(APITestCase):
         self.assertEqual(Profile.objects.filter(user=self.user).count(), 1)
 
     def test_reject_invalid_goal_choice(self):
+        # Блокування невалідних даних
         payload = {
             "age": 29,
             "weight": 72.5,

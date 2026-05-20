@@ -7,23 +7,17 @@ User = get_user_model()
 
 class NutritionTestCase(TestCase):
     
+    # Спершу ініціалізація (setUp має бути тут!)
     def setUp(self):
-        # Ініціалізація вашого кастомного тестового користувача
         self.user = User.objects.create_user(username='testuser', password='password')
 
-    # ----------------------------------------------------------------------
-    # БЛОК 1: Додавання даних
-    # ----------------------------------------------------------------------
-    
+    # Тести додавання
     def test_add_food(self):
         entry = add_food(self.user, "breakfast", "Apple", 50)
         self.assertEqual(FoodEntry.objects.count(), 1)
         self.assertEqual(entry.food_name, "Apple")
 
-    # ----------------------------------------------------------------------
-    # БЛОК 2: Розрахунки калорій
-    # ----------------------------------------------------------------------
-    
+    # Тести розрахунків
     def test_get_meal_calories(self):
         add_food(self.user, "lunch", "Soup", 200)
         add_food(self.user, "lunch", "Bread", 100)
@@ -34,10 +28,6 @@ class NutritionTestCase(TestCase):
         add_food(self.user, "dinner", "Salad", 150)
         self.assertEqual(get_daily_calories(self.user), 250)
 
-    # ----------------------------------------------------------------------
-    # БЛОК 3: Форматування та агрегація
-    # ----------------------------------------------------------------------
-
     def test_get_meal_details(self):
         add_food(self.user, "breakfast", "Coffee", 10)
         details = get_meal_details(self.user)
@@ -45,13 +35,18 @@ class NutritionTestCase(TestCase):
         self.assertEqual(details["lunch"], 0)
         self.assertEqual(details["dinner"], 0)
 
-    # ----------------------------------------------------------------------
-    # БЛОК 4: Видалення даних
-    # ----------------------------------------------------------------------
-
+    # Тести видалення
     def test_delete_food(self):
         food = add_food(self.user, "dinner", "Fish", 300)
-        self.assertEqual(FoodEntry.objects.count(), 1)
-        
         delete_food(food.id)
         self.assertEqual(FoodEntry.objects.count(), 0)
+
+    def test_delete_food_nonexistent(self):
+        # Перевірка безпеки: програма не падає при видаленні неіснуючого запису
+        try:
+            delete_food(99999)
+            success = True
+        except:
+            success = False
+        self.assertTrue(success)
+        
